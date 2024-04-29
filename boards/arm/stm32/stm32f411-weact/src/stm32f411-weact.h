@@ -52,6 +52,8 @@
   (GPIO_PORTC | GPIO_PIN13 | GPIO_OUTPUT_SET | GPIO_OUTPUT | GPIO_PULLUP | \
    GPIO_SPEED_50MHz)
 
+#define LED_DRIVER_PATH "/dev/userleds"
+
 /* Buttons
  *
  * B1 USER: the user button is connected to the I/O PA0 of the STM32
