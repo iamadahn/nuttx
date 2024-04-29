@@ -1,5 +1,5 @@
 # ##############################################################################
-# boards/arm/stm32f411-weact/src/CMakeLists.txt
+# boards/arm/stm32/stm32f411-weact/CMakeLists.txt
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more contributor
 # license agreements.  See the NOTICE file distributed with this work for
@@ -18,41 +18,4 @@
 #
 # ##############################################################################
 
-set(SRCS stm32_boot.c stm32_bringup.c)
-
-if(CONFIG_NSH_LIBRARY)
-  list(APPEND SRCS stm32_appinit.c)
-endif()
-
-if(CONFIG_ARCH_LEDS)
-  list(APPEND SRCS stm32_autoleds.c)
-endif()
-
-if(CONFIG_SPI)
-  list(APPEND SRCS stm32_spi.c)
-endif()
-
-if(CONFIG_MTD_W25)
-  list(APPEND SRCS stm32_w25.c)
-endif()
-
-if(CONFIG_STM32_OTGFS)
-  list(APPEND SRCS stm32_usb.c)
-endif()
-
-if(CONFIG_USBDEV_COMPOSITE)
-  list(APPEND SRCS stm32_composite.c)
-endif()
-
-if(CONFIG_STM32F411WEACT_GPIO)
-  list(APPEND SRCS stm32_gpio.c)
-endif()
-
-if(CONFIG_USBMSC)
-  list(APPEND SRCS stm32_usbmsc.c)
-endif()
-
-target_sources(board PRIVATE ${SRCS})
-
-set_property(GLOBAL PROPERTY LD_SCRIPT
-                             "${NUTTX_BOARD_DIR}/scripts/stm32f411ce.ld")
+add_subdirectory(src)

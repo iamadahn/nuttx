@@ -80,7 +80,7 @@ menuconfig STM32F411WEACT_GPIO
 	bool "enable gpio subsystem"
 
 if STM32F411WEACT_GPIO
-source "boards/arm/stm32f411-weact/Kconfig.gpio"
+source "boards/arm/stm32/stm32f411-weact/Kconfig.gpio"
 endif
 
 endif

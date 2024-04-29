@@ -1,5 +1,5 @@
 /****************************************************************************
- * boards/arm/stm32/stm32f411-minimum/src/stm32_autoleds.c
+ * boards/arm/stm32/stm32f411-weact/src/stm32_autoleds.c
  *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -34,7 +34,7 @@
 #include "chip.h"
 #include "arm_internal.h"
 #include "stm32.h"
-#include "stm32f411-minimum.h"
+#include "stm32f411-weact.h"
 
 /****************************************************************************
  * Private Functions

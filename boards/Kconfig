@@ -2432,6 +2432,15 @@ config ARCH_BOARD_STM32F411_MINIMUM
 	---help---
 		A configuration for the STM32F411 Minimum board.
 
+config ARCH_BOARD_STM32F411_WEACT
+	bool "STM32F411CEU6 Minimum ARM Weact Development Board"
+	depends on ARCH_CHIP_STM32F411CE
+	select ARCH_HAVE_LEDS
+	select ARCH_HAVE_BUTTONS
+	select ARCH_HAVE_IRQBUTTONS
+	---help---
+		A configuration for the STM32F411 Weact board.
+
 config ARCH_BOARD_STM3210E_EVAL
 	bool "STMicro STM3210E-EVAL development board"
 	depends on ARCH_CHIP_STM32F103ZE
@@ -3397,6 +3406,7 @@ config ARCH_BOARD
 	default "stm32f072-discovery"       if ARCH_BOARD_STM32F072_DISCOVERY
 	default "stm32f103-minimum"         if ARCH_BOARD_STM32F103_MINIMUM
 	default "stm32f411-minimum"         if ARCH_BOARD_STM32F411_MINIMUM
+	default "stm32f411-weact"			if ARCH_BOARD_STM32F411_WEACT
 	default "stm3210e-eval"             if ARCH_BOARD_STM3210E_EVAL
 	default "stm3220g-eval"             if ARCH_BOARD_STM3220G_EVAL
 	default "stm3240g-eval"             if ARCH_BOARD_STM3240G_EVAL
@@ -4106,6 +4116,9 @@ source "boards/arm/stm32/stm32f103-minimum/Kconfig"
 endif
 if ARCH_BOARD_STM32F411_MINIMUM
 source "boards/arm/stm32/stm32f411-minimum/Kconfig"
+endif
+if ARCH_BOARD_STM32F411_WEACT
+source "boards/arm/stm32/stm32f411-weact/Kconfig"
 endif
 if ARCH_BOARD_STM32F334_DISCO
 source "boards/arm/stm32/stm32f334-disco/Kconfig"

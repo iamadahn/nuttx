@@ -1,5 +1,5 @@
 /****************************************************************************
- * boards/arm/stm32f411-weact/include/board.h
+ * boards/arm/stm32/stm32f411-weact/include/board.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -18,8 +18,8 @@
  *
  ****************************************************************************/
 
-#ifndef __BOARDS_ARM_STM32_STM32F411_MINIMUM_INCLUDE_BOARD_H
-#define __BOARDS_ARM_STM32_STM32F411_MINIMUM_INCLUDE_BOARD_H
+#ifndef __BOARDS_ARM_STM32_STM32F411_WEACT_INCLUDE_BOARD_H
+#define __BOARDS_ARM_STM32_STM32F411_WEACT_INCLUDE_BOARD_H
 
 /****************************************************************************
  * Included Files
@@ -291,7 +291,7 @@
 
 /* LEDs
  *
- * The STM32F411-Minimum (aka BlackPill) has a LED on PC13 pin.
+ * The STM32F411-Weact (aka BlackPill) has a LED on PC13 pin.
  */
 
 /* The board has only one controllable LED */
@@ -325,4 +325,4 @@
 
 #define BUTTON_USER_BIT    (1 << BUTTON_USER)
 
-#endif /* __BOARDS_ARM_STM32_STM32F411_MINIMUM_INCLUDE_BOARD_H */
+#endif /* __BOARDS_ARM_STM32_STM32F411_WEACT_INCLUDE_BOARD_H */

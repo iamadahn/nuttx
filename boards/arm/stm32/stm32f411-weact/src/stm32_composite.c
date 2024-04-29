@@ -1,5 +1,5 @@
 /****************************************************************************
- * boards/arm/stm32f411-weact/src/stm32_composite.c
+ * boards/arm/stm32/stm32f411-weact/src/stm32_composite.c
  *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with

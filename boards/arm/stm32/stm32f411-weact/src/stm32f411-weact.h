@@ -1,5 +1,5 @@
 /****************************************************************************
- * boards/arm/stm32f411-weact/src/stm32f411-weact.h
+ * boards/arm/stm32/stm32f411-weact/src/stm32f411-weact.h
  *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
