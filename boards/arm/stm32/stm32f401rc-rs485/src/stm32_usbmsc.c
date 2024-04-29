@@ -1,5 +1,5 @@
 /****************************************************************************
- * arch/arm/src/samv7/sam_qencoder.h
+ * boards/arm/stm32/stm32f401rc-rs485/src/stm32_usbmsc.c
  *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -18,64 +18,53 @@
  *
  ****************************************************************************/
 
-#ifndef __ARCH_ARM_SRC_SAMV7_SAM_QENCODER_H
-#define __ARCH_ARM_SRC_SAMV7_SAM_QENCODER_H
-
 /****************************************************************************
  * Included Files
  ****************************************************************************/
 
 #include <nuttx/config.h>
 
-#include "chip.h"
+#include <stdio.h>
+#include <syslog.h>
+#include <errno.h>
 
-#if defined(CONFIG_SENSORS_QENCODER) && defined(CONFIG_SAMV7_QENCODER)
+#include <nuttx/board.h>
+
+#include "stm32.h"
 
 /****************************************************************************
- * Included Files
+ * Pre-processor Definitions
  ****************************************************************************/
 
-/* Timer devices may be used for different purposes.  One special purpose is
- * as a quadrature encoder input device.  CONFIG_SAMV7_TCn is defined
- * then the CONFIG_SAMV7_TCn_QE must also be defined to indicate that timer
- * "n" is intended to be used for as a quadrature encoder.
- */
+/* Configuration ************************************************************/
 
-#ifndef CONFIG_SAMV7_TC0
-#  undef CONFIG_SAMV7_TC0_QE
-#endif
-#ifndef CONFIG_SAMV7_TC1
-#  undef CONFIG_SAMV7_TC1_QE
-#endif
-#ifndef CONFIG_SAMV7_TC2
-#  undef CONFIG_SAMV7_TC2_QE
-#endif
-#ifndef CONFIG_SAMV7_TC3
-#  undef CONFIG_SAMV7_TC3_QE
+#ifndef CONFIG_SYSTEM_USBMSC_DEVMINOR1
+#  define CONFIG_SYSTEM_USBMSC_DEVMINOR1 0
 #endif
 
 /****************************************************************************
- * Included Files
+ * Public Functions
  ****************************************************************************/
 
 /****************************************************************************
- * Name: sam_qeinitialize
+ * Name: board_usbmsc_initialize
  *
  * Description:
- *   Initialize a quadrature encoder interface.  This function must be called
- *   from board-specific logic..
- *
- * Input Parameters:
- *   devpath - The full path to the driver to register. E.g., "/dev/qe0"
- *   tc      - The timer counter number to used.  'tc' must be an element of
- *             {0,1,2,3}
- *
- * Returned Value:
- *   Zero on success; A negated errno value is returned on failure.
+ *   Perform architecture specific initialization of the USB MSC device.
  *
  ****************************************************************************/
 
-int sam_qeinitialize(const char *devpath, int tc);
+int board_usbmsc_initialize(int port)
+{
+  /* If system/usbmsc is built as an NSH command, then SD slot should
+   * already have been initialized in board_app_initialize()
+   * (see stm32_appinit.c).
+   * In this case, there is nothing further to be done here.
+   */
 
-#endif /* CONFIG_SENSORS_QENCODER && CONFIG_SAMV7_QENCODER */
-#endif /* __ARCH_ARM_SRC_SAMV7_SAM_QENCODER_H */
+#ifndef CONFIG_NSH_BUILTIN_APPS
+  return stm32_mmcsd_initialize(port, CONFIG_SYSTEM_USBMSC_DEVMINOR1);
+#else
+  return OK;
+#endif
+}
