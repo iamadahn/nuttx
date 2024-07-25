@@ -146,6 +146,22 @@ the ``buttons`` application and pressing on any of the available board buttons::
     nsh> Sample = 1
     Sample = 0
 
+capture
+--------
+
+The capture configuration enables the capture driver and the capture example, allowing
+the user to measure duty cycle and frequency of a signal. Default pin is GPIO 12 with
+an internal pull-up resistor enabled. When connecting a 50 Hz pulse with 50% duty cycle,
+the following output is expected:
+
+nsh> cap
+cap_main: Hardware initialized. Opening the capture device: /dev/capture0
+cap_main: Number of samples: 0
+pwm duty cycle: 50 % 
+pwm frequence: 50 Hz 
+pwm duty cycle: 50 % 
+pwm frequence: 50 Hz 
+
 coremark
 --------
 
@@ -329,7 +345,7 @@ pm
 -------
 
 This config demonstrate the use of power management present on the ESP32-S3.
-You can use the pmconfig command to test the power management.
+You can use the ``pmconfig`` command to test the power management.
 Enables PM support. You can define standby mode and sleep mode delay time::
 
     $ make menuconfig
@@ -340,6 +356,7 @@ Enables PM support. You can define standby mode and sleep mode delay time::
            (0)  PM_SLEEP delay (nanoseconds)
 
 Before switching PM status, you need to query the current PM status::
+
     nsh> pmconfig
     Last state 0, Next state 0
 
@@ -369,12 +386,13 @@ System switch to the PM standby mode, you need to enter::
     nsh> pmconfig relax normal
 
 System switch to the PM sleep mode, you need to enter::
+
     nsh> pmconfig relax standby
     nsh> pmconfig relax idle
     nsh> pmconfig relax normal
     nsh> pmconfig relax normal
 
-Note: when normal mode COUNT is 0, it will switch to the next PM state where COUNT is not 0.
+Note: When normal mode COUNT is 0, it will switch to the next PM state where COUNT is not 0.
 
 psram_quad
 ----------
@@ -417,6 +435,13 @@ To test it, just execute the ``pwm`` application::
     nsh> pwm
     pwm_main: starting output with frequency: 10000 duty: 00008000
     pwm_main: stopping output
+
+qemu_debug
+----------
+
+A configuration tailored for the `Espressif fork of QEMU`_.
+
+.. _Espressif fork of QEMU: https://github.com/espressif/qemu
 
 random
 ------

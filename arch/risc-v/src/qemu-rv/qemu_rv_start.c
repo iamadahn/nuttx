@@ -58,7 +58,7 @@
  * Extern Function Declarations
  ****************************************************************************/
 
-#ifdef CONFIG_BUILD_KERNEL
+#ifdef CONFIG_ARCH_USE_S_MODE
 extern void __start(void);
 #endif
 
@@ -80,7 +80,7 @@ static void qemu_rv_clear_bss(void)
     }
 }
 
-#ifdef CONFIG_BUILD_KERNEL
+#ifdef CONFIG_ARCH_USE_S_MODE
 static void qemu_boot_secondary(int mhartid, uintptr_t dtb)
 {
   int i;
@@ -101,20 +101,13 @@ static void qemu_boot_secondary(int mhartid, uintptr_t dtb)
  * Private Data
  ****************************************************************************/
 
-#ifdef CONFIG_BUILD_KERNEL
+#ifdef CONFIG_ARCH_USE_S_MODE
 static bool boot_secondary = false;
 #endif
 
 /****************************************************************************
  * Public Data
  ****************************************************************************/
-
-/* NOTE: g_idle_topstack needs to point the top of the idle stack
- * for last CPU and this value is used in up_initial_state()
- */
-
-uintptr_t g_idle_topstack = QEMU_RV_IDLESTACK_BASE +
-                              SMP_STACK_SIZE * CONFIG_SMP_NCPUS;
 
 /****************************************************************************
  * Public Functions
@@ -126,7 +119,7 @@ uintptr_t g_idle_topstack = QEMU_RV_IDLESTACK_BASE +
 
 void qemu_rv_start(int mhartid, const char *dtb)
 {
-#ifdef CONFIG_BUILD_KERNEL
+#ifdef CONFIG_ARCH_USE_S_MODE
   /* Boot other cores */
 
   if (!boot_secondary)
@@ -146,8 +139,6 @@ void qemu_rv_start(int mhartid, const char *dtb)
     }
 
   qemu_rv_clear_bss();
-
-  riscv_set_basestack(QEMU_RV_IDLESTACK_BASE, SMP_STACK_SIZE);
 
 #ifdef CONFIG_RISCV_PERCPU_SCRATCH
   riscv_percpu_add_hart(mhartid);

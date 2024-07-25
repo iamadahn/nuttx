@@ -1,5 +1,5 @@
 # ##############################################################################
-# arch/arm/src/common/CMakeLists.txt
+# arch/risc-v/src/common/CMakeLists.txt
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more contributor
 # license agreements.  See the NOTICE file distributed with this work for
@@ -46,6 +46,10 @@ endif()
 
 if(CONFIG_RISCV_MISALIGNED_HANDLER)
   list(APPEND SRCS riscv_misaligned.c)
+endif()
+
+if(CONFIG_ARCH_HAVE_DEBUG)
+  list(APPEND SRCS riscv_debug.c)
 endif()
 
 if(NOT CONFIG_BUILD_FLAT)
@@ -109,7 +113,7 @@ if(CONFIG_RISCV_PERCPU_SCRATCH)
   list(APPEND SRCS riscv_percpu.c)
 endif()
 
-if(CONFIG_BUILD_KERNEL)
+if(CONFIG_ARCH_USE_S_MODE)
   add_subdirectory(supervisor)
 endif()
 

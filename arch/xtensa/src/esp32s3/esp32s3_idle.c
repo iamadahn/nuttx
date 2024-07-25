@@ -29,6 +29,7 @@
 #include <nuttx/arch.h>
 #include <nuttx/board.h>
 #include <nuttx/power/pm.h>
+#include <nuttx/spinlock.h>
 
 #include "xtensa.h"
 #include "esp32s3_pm.h"
@@ -140,7 +141,6 @@ static void up_idlepm(void)
             esp32s3_pmsleep(CONFIG_PM_SLEEP_WAKEUP_SEC * 1000000 +
                             CONFIG_PM_SLEEP_WAKEUP_NSEC / 1000);
           }
-          break;
 
         default:
           break;

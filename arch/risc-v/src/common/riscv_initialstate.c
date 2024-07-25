@@ -97,7 +97,7 @@ void up_initial_state(struct tcb_s *tcb)
 
   if (tcb->pid == IDLE_PROCESS_ID)
     {
-      tcb->stack_alloc_ptr = (void *)g_cpux_idlestack[riscv_mhartid()];
+      tcb->stack_alloc_ptr = (void *)g_cpux_idlestack(riscv_mhartid());
       tcb->stack_base_ptr  = tcb->stack_alloc_ptr;
       tcb->adj_stack_size  = SMP_STACK_SIZE;
 
@@ -131,7 +131,7 @@ void up_initial_state(struct tcb_s *tcb)
     }
 #endif
 
-  xcp->regs = (uintptr_t *)(topstack - XCPTCONTEXT_SIZE);
+  xcp->regs = (uintreg_t *)(topstack - XCPTCONTEXT_SIZE);
   memset(xcp->regs, 0, XCPTCONTEXT_SIZE);
 
   /* Save the initial stack pointer.  Hmmm.. the stack is set to the very
