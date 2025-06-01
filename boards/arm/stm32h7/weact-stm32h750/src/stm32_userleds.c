@@ -1,5 +1,5 @@
 /****************************************************************************
- * boards/arm/stm32h7/weact-stm32h750/src/stm32_bringup.c
+ * board/src/stm32_userleds.c
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -26,71 +26,75 @@
 
 #include <nuttx/config.h>
 
-#include <sys/types.h>
-#include <syslog.h>
-#include <errno.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <debug.h>
 
+#include <nuttx/board.h>
 #include <arch/board/board.h>
 
-#include <nuttx/fs/fs.h>
-
+#include "stm32_gpio.h"
 #include "weact-stm32h750.h"
 
-#include "stm32_gpio.h"
-
-#ifdef CONFIG_USERLED
-#    include <nuttx/leds/userled.h>
-#endif
+#ifndef CONFIG_ARCH_LEDS
 
 /****************************************************************************
- * Private Functions
+ * Private Data
  ****************************************************************************/
+
+/* This array maps an LED number to GPIO pin configuration */
+
+static const uint32_t g_ledcfg[BOARD_NLEDS] =
+{
+    GPIO_LD1,
+};
 
 /****************************************************************************
  * Public Functions
  ****************************************************************************/
 
 /****************************************************************************
- * Name: stm32_bringup
- *
- * Description:
- *   Perform architecture-specific initialization
- *
- *   CONFIG_BOARD_LATE_INITIALIZE=y :
- *     Called from board_late_initialize().
- *
- *   CONFIG_BOARD_LATE_INITIALIZE=n && CONFIG_BOARDCTL=y &&
- *   CONFIG_NSH_ARCHINIT:
- *     Called from the NSH library
- *
+ * Name: board_userled_initialize
  ****************************************************************************/
 
-int stm32_bringup(void)
+uint32_t board_userled_initialize(void)
 {
-  int ret = OK;
+    int i;
 
-  UNUSED(ret);
+    /* Configure LED GPIOs for output */
 
-#ifdef CONFIG_FS_PROCFS
-  /* Mount the procfs file system */
-
-  ret = nx_mount(NULL, STM32_PROCFS_MOUNTPOINT, "procfs", 0, NULL);
-  if (ret < 0)
+    for (i = 0; i < BOARD_NLEDS; i++)
     {
-      syslog(LOG_ERR,
-             "ERROR: Failed to mount the PROC filesystem: %d\n",  ret);
+      stm32_configgpio(g_ledcfg[i]);
     }
-#endif /* CONFIG_FS_PROCFS */
 
-#ifdef CONFIG_USERLED
-  /* Register the LED driver */
-
-  ret = userled_lower_initialize("/dev/userleds");
-  if (ret < 0)
-    {
-      syslog(LOG_ERR, "ERROR: userled_lower_initialize() failed: %d\n", ret);
-    }
-#endif
-
-  return OK;
+    return BOARD_NLEDS;
 }
+
+/****************************************************************************
+ * Name: board_userled
+ ****************************************************************************/
+
+void board_userled(int led, bool ledon)
+{
+    if ((unsigned)led < BOARD_NLEDS) {
+        stm32_gpiowrite(g_ledcfg[led], ledon);
+    }
+}
+
+/****************************************************************************
+ * Name: board_userled_all
+ ****************************************************************************/
+
+void board_userled_all(uint32_t ledset)
+{
+    int i;
+
+    /* Configure LED GPIOs for output */
+
+    for (i = 0; i < BOARD_NLEDS; i++) {
+        stm32_gpiowrite(g_ledcfg[i], (ledset & (1 << i)) != 0);
+    }
+}
+
+#endif /* !CONFIG_ARCH_LEDS */
